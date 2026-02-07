@@ -1,0 +1,101 @@
+{
+  "objectID": 394376,
+  "isHighlight": false,
+  "accessionNumber": "56.646.1(4)",
+  "accessionYear": "1956",
+  "isPublicDomain": true,
+  "primaryImage": "https://images.metmuseum.org/CRDImages/dp/original/DP826236.jpg",
+  "primaryImageSmall": "https://images.metmuseum.org/CRDImages/dp/web-large/DP826236.jpg",
+  "additionalImages": [],
+  "constituents": [
+    {
+      "constituentID": 103259,
+      "role": "Artist",
+      "name": "Jean Daullé",
+      "constituentULAN_URL": "http://vocab.getty.edu/page/ulan/500041895",
+      "constituentWikidata_URL": "https://www.wikidata.org/wiki/Q6170508",
+      "gender": ""
+    },
+    {
+      "constituentID": 161703,
+      "role": "Artist",
+      "name": "After François Boucher",
+      "constituentULAN_URL": "http://vocab.getty.edu/page/ulan/500032143",
+      "constituentWikidata_URL": "https://www.wikidata.org/wiki/Q180932",
+      "gender": ""
+    }
+  ],
+  "department": "Drawings and Prints",
+  "objectName": "Print",
+  "title": "Water",
+  "culture": "",
+  "period": "",
+  "dynasty": "",
+  "reign": "",
+  "portfolio": "The Four Elements\r\n(Les Quatre Éléments)",
+  "artistRole": "Artist",
+  "artistPrefix": "",
+  "artistDisplayName": "Jean Daullé",
+  "artistDisplayBio": "French, Abbeville 1703–1763 Paris",
+  "artistSuffix": "",
+  "artistAlphaSort": "Daullé, Jean",
+  "artistNationality": "French",
+  "artistBeginDate": "1703",
+  "artistEndDate": "1763",
+  "artistGender": "",
+  "artistWikidata_URL": "https://www.wikidata.org/wiki/Q6170508",
+  "artistULAN_URL": "http://vocab.getty.edu/page/ulan/500041895",
+  "objectDate": "ca. 1748",
+  "objectBeginDate": 1743,
+  "objectEndDate": 1753,
+  "medium": "Etching and engraving",
+  "dimensions": "Sheet: 12 3/4 × 10 1/2 in. (32.4 × 26.7 cm)",
+  "measurements": [
+    {
+      "elementName": "Sheet",
+      "elementDescription": null,
+      "elementMeasurements": {
+        "Height": 32.4,
+        "Width": 26.7
+      }
+    }
+  ],
+  "creditLine": "The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1953",
+  "geographyType": "",
+  "city": "",
+  "state": "",
+  "county": "",
+  "country": "",
+  "region": "",
+  "subregion": "",
+  "locale": "",
+  "locus": "",
+  "excavation": "",
+  "river": "",
+  "classification": "Prints",
+  "rightsAndReproduction": "",
+  "linkResource": "",
+  "metadataDate": "2025-03-06T04:54:30Z",
+  "repository": "Metropolitan Museum of Art, New York, NY",
+  "objectURL": "https://www.metmuseum.org/art/collection/search/394376",
+  "tags": [
+    {
+      "term": "Music",
+      "AAT_URL": "http://vocab.getty.edu/page/aat/300435214",
+      "Wikidata_URL": "https://www.wikidata.org/wiki/Q638"
+    },
+    {
+      "term": "Horns",
+      "AAT_URL": null,
+      "Wikidata_URL": "https://www.wikidata.org/wiki/Q1512054"
+    },
+    {
+      "term": "Coat of Arms",
+      "AAT_URL": "http://vocab.getty.edu/page/aat/300126352",
+      "Wikidata_URL": "https://www.wikidata.org/wiki/Q14659"
+    }
+  ],
+  "objectWikidata_URL": "",
+  "isTimelineWork": false,
+  "GalleryNumber": ""
+}

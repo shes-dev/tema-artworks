@@ -1,0 +1,47 @@
+{
+  "name": "tema-server",
+  "version": "1.0.0",
+  "description": "Artwork collection and import API - Node.js Express Server",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node dist/app.js",
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:backend-e2e": "node scripts/testBackendE2E.js",
+    "verify-met-read": "node scripts/verifyMetRead.js",
+    "dev:db": "node --loader ts-node/esm scripts/testMongoConnection.ts",
+    "dev:schema": "node --loader ts-node/esm scripts/testArtworkSchema.ts",
+    "dev:upsert": "node --loader ts-node/esm scripts/testArtworkUpsert.ts",
+    "dev:artwork-dal": "node --loader ts-node/esm scripts/testArtworkDAL.ts",
+    "dev:fetch": "node --loader ts-node/esm scripts/testFetchMetObject.ts",
+    "dev:validate": "node --loader ts-node/esm scripts/testValidateMetRaw.ts",
+    "dev:normalize": "node --loader ts-node/esm scripts/testNormalizeMetArtwork.ts",
+    "dev:import-orchestration": "node --loader ts-node/esm scripts/testImportMetArtwork.ts",
+    "fetch-demo-data": "node --loader ts-node/esm scripts/fetchDemoData.ts"
+  },
+  "keywords": ["artwork", "collection", "express", "mongodb"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/openai": "^2.0.0",
+    "zod": "^3.23.8",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongodb": "^6.3.0",
+    "openai": "^6.16.0",
+    "p-limit": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^25.0.9",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

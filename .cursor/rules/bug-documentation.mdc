@@ -1,0 +1,29 @@
+---
+description: Document every bug in an md file and reference it correctly
+alwaysApply: true
+---
+
+# Bug documentation
+
+Every bug that is fixed or investigated must be documented in a markdown file and referenced correctly.
+
+## Where and how to document
+
+- **Location:** `docs/bug-<short-slug>.md` (e.g. `docs/bug-ts-node-loader-crash.md`).
+- **Required sections:** Summary, Symptoms, Root cause, Fix, and (when relevant) References.
+
+## What “well documented” means
+
+- **Summary:** One or two sentences describing the bug and outcome.
+- **Symptoms:** What the user or dev sees (commands, errors, environment).
+- **Root cause:** Why it happened, not just what broke.
+- **Fix:** Concrete steps or code changes applied.
+- **References:** Links to issues, PRs, or external docs when applicable.
+
+## Referencing the bug doc
+
+- In **commit messages:** mention the doc file when the commit fixes the bug (e.g. `Fix server crash on dev start (see docs/bug-ts-node-loader-crash.md)`).
+- In **code or TODOs:** if a workaround or non-obvious behavior is tied to a bug, add a short comment that points to the doc (e.g. `// See docs/bug-xyz.md`).
+- In **project docs:** when a doc (e.g. ARCHITECTURE.md, NEXT.md) describes behavior affected by a known bug, add a sentence or link to the bug doc.
+
+Do not consider a bug “done” until the doc exists and is referenced where it matters (at least in the fixing commit).

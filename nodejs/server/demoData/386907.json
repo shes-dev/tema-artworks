@@ -1,0 +1,88 @@
+{
+  "objectID": 386907,
+  "isHighlight": false,
+  "accessionNumber": "51.501.2281",
+  "accessionYear": "1951",
+  "isPublicDomain": true,
+  "primaryImage": "https://images.metmuseum.org/CRDImages/dp/original/DP818028.jpg",
+  "primaryImageSmall": "https://images.metmuseum.org/CRDImages/dp/web-large/DP818028.jpg",
+  "additionalImages": [],
+  "constituents": [
+    {
+      "constituentID": 71298,
+      "role": "Artist",
+      "name": "Abraham Bosse",
+      "constituentULAN_URL": "http://vocab.getty.edu/page/ulan/500031187",
+      "constituentWikidata_URL": "https://www.wikidata.org/wiki/Q326215",
+      "gender": ""
+    }
+  ],
+  "department": "Drawings and Prints",
+  "objectName": "Print",
+  "title": "Water",
+  "culture": "",
+  "period": "",
+  "dynasty": "",
+  "reign": "",
+  "portfolio": "The Four Elements\r\n(Les quatre eléments)",
+  "artistRole": "Artist",
+  "artistPrefix": "",
+  "artistDisplayName": "Abraham Bosse",
+  "artistDisplayBio": "French, Tours 1602/04–1676 Paris",
+  "artistSuffix": "",
+  "artistAlphaSort": "Bosse, Abraham",
+  "artistNationality": "French",
+  "artistBeginDate": "1602",
+  "artistEndDate": "1676",
+  "artistGender": "",
+  "artistWikidata_URL": "https://www.wikidata.org/wiki/Q326215",
+  "artistULAN_URL": "http://vocab.getty.edu/page/ulan/500031187",
+  "objectDate": "ca. 1630",
+  "objectBeginDate": 1625,
+  "objectEndDate": 1635,
+  "medium": "Etching",
+  "dimensions": "Sheet (trimmed): 5 15/16 × 4 5/16 in. (15.1 × 11 cm)",
+  "measurements": [
+    {
+      "elementName": "Sheet",
+      "elementDescription": "trimmed",
+      "elementMeasurements": {
+        "Height": 15.1,
+        "Width": 11
+      }
+    }
+  ],
+  "creditLine": "The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1951",
+  "geographyType": "",
+  "city": "",
+  "state": "",
+  "county": "",
+  "country": "",
+  "region": "",
+  "subregion": "",
+  "locale": "",
+  "locus": "",
+  "excavation": "",
+  "river": "",
+  "classification": "Prints",
+  "rightsAndReproduction": "",
+  "linkResource": "",
+  "metadataDate": "2025-03-06T04:54:30Z",
+  "repository": "Metropolitan Museum of Art, New York, NY",
+  "objectURL": "https://www.metmuseum.org/art/collection/search/386907",
+  "tags": [
+    {
+      "term": "Fountains",
+      "AAT_URL": "http://vocab.getty.edu/page/aat/300006179",
+      "Wikidata_URL": "https://www.wikidata.org/wiki/Q483453"
+    },
+    {
+      "term": "Men",
+      "AAT_URL": "http://vocab.getty.edu/page/aat/300025928",
+      "Wikidata_URL": "https://www.wikidata.org/wiki/Q8441"
+    }
+  ],
+  "objectWikidata_URL": "",
+  "isTimelineWork": false,
+  "GalleryNumber": ""
+}
