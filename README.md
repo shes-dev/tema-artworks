@@ -1,6 +1,4 @@
-# Full-Stack Monorepo Template
-
-A minimal full-stack monorepo with a Node.js/Express backend, React frontend, and MongoDB. Use it as a base for your own API and UI.
+# Artworks Display
 
 **For the shortest path to a running app, see [QUICKSTART.md](QUICKSTART.md).**
 
