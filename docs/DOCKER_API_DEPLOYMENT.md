@@ -55,6 +55,10 @@ cp nodejs/server/.env.api.example nodejs/server/.env.api
 Important:
 
 - do not commit real secret values
+- `TEMA_API_KEY` in the host `nodejs/server/.env.api` must be replaced with a real secret before running the stack
+- `docker-compose.api.yml` is intentionally fail-closed for `TEMA_API_KEY`; if the key is missing, Compose should fail before starting the API
+- do not use the committed placeholder value in any deployed environment
+- the same real secret should be configured in Ahi News as `TEMA_ARTWORKS_API_KEY`
 - `MONGODB_URI` inside the API compose stack should point to the private Mongo service, not localhost
 - public callers should go through Nginx later, not through raw Docker-exposed public ports
 
@@ -78,6 +82,8 @@ From the repo root:
 cp nodejs/server/.env.api.example nodejs/server/.env.api
 docker compose --env-file nodejs/server/.env.api -f docker-compose.api.yml up -d --build
 ```
+
+If `TEMA_API_KEY` is missing from `nodejs/server/.env.api`, the Compose stack should fail before starting `tema-api`.
 
 What this does:
 
@@ -180,6 +186,12 @@ docker compose --env-file nodejs/server/.env.api -f docker-compose.api.yml up -d
 curl http://127.0.0.1:3020/healthz
 curl -H "x-tema-api-key: REPLACE_WITH_TEMA_API_KEY" "http://127.0.0.1:3020/daily-artwork?date_key=2026-07-04"
 ```
+
+On the host:
+
+- `TEMA_API_KEY` in `nodejs/server/.env.api` must be a real secret
+- Ahi News must use that same real value as `TEMA_ARTWORKS_API_KEY`
+- the committed placeholder from `.env.api.example` is template-only and must never be used for deployment
 
 Nginx, public HTTPS routing, and any host-specific app directories remain a separate deployment task.
 
