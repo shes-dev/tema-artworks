@@ -7,6 +7,7 @@ High-level system overview and canonical shapes. No implementation details beyon
 ## System overview
 
 - **Backend:** Node.js (Express + TypeScript) under `nodejs/server/`. MongoDB for persistence. Artwork ingestion is a four-stage pipeline: fetch (MET API) → validate (Zod) → normalize (canonical shape) → persist (DAL).
+- **Daily artwork API:** `GET /daily-artwork` is a separate read path for external consumers. It uses API-key auth, chooses one MET object deterministically from a small curated seed list based on `date_key`, then reads from Mongo or lazily imports the selected MET record if it is missing locally.
 - **Frontend:** React + Vite under `nodejs/client/`. Phase 9 UI implemented: Pull Collection, Review Changes, View Collection (grid + More Info + AI Enrichment Result modals). Single backend-facing module (examApi.js); UI does not infer diffs or modify data locally. Not part of the ingestion pipeline.
 - **Database:** MongoDB. One collection used by the artwork pipeline: `artworks`. Indexes: unique on `(source, sourceObjectId)`; `normalized.tags`; compound text index on `normalized.title` and `normalized.tags` for free-text search.
 
@@ -28,11 +29,19 @@ Defined in `nodejs/server/models/Artwork.ts`. Every persisted artwork document h
 
 `normalized.tags` may contain both source-derived and AI-enriched tags; source-derived tags are never removed by enrichment. Enrichment (Phase 12) uses `llmDAL.suggestTagsForArtwork`; POST .../enrich returns suggested tags and optionally accepts `{ "apply": true }` to merge suggested tags into `normalized.tags` and persist (Phase 13).
 
+The daily artwork API does not need additional persisted fields for v1. It derives the external payload from the canonical artwork document plus stable MET-specific rules:
+
+- `museum` and `image_credit` are both `The Metropolitan Museum of Art`
+- `artwork_url` is derived from the MET object id
+- `explanation` is deterministic and non-LLM
+- missing optional display fields are serialized as `null`
+
 ---
 
 ## DAL abstraction
 
 - **Interface:** `IArtworkDAL` in `nodejs/server/dal/artworkDAL.types.ts`. Methods: `persistArtwork(doc)`, `findBySourceId(source, sourceObjectId)`, `findCollectionPage(params)` for list/pagination/tags/text search, `findLastImportedObjectIds(source, limit)` for demo orchestration (last-imported IDs by source). No Mongo or I/O in the interface.
+- **Daily artwork usage:** The daily selector currently needs only `findBySourceId(...)` plus the existing import pipeline. The deterministic object-id choice lives in the service layer, not in the DAL.
 - **Implementation:** `MongoArtworkDAL` in `nodejs/server/dal/mongodbArtworkDAL.ts`. Uses `updateOne(..., { upsert: true })` keyed by `(source, sourceObjectId)`. Ensures exactly one current document per artwork; `metadata.importedAt` is set at persist time. Read APIs tolerate documents with missing `metadata` or `metadata.importedAt` (e.g. legacy data) without failing.
 - **Why:** The pipeline and orchestration depend only on `IArtworkDAL`. Storage can be swapped without changing fetch, validate, or normalize. Only the persist stage touches the DAL.
 

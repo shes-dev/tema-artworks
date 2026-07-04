@@ -243,3 +243,74 @@ UI must **never** compare raw or normalized payloads client-side or infer tags l
 - No per-field diff visualization.
 - No editing of imported data.
 - No background auto-enrichment.
+
+---
+
+## API-only additions
+
+These endpoints exist for external consumers and deployment smoke checks. They are not part of the Phase 9 browsing UI.
+
+### API: GET /daily-artwork
+
+**Status: implemented.**
+
+Request:
+
+```http
+GET /daily-artwork?date_key=YYYY-MM-DD
+x-tema-api-key: <secret>
+```
+
+- `date_key` is optional. When omitted, the server uses the current Jerusalem-local date.
+- `x-tema-api-key` is required. The backend validates it against `TEMA_API_KEY`.
+- Missing/invalid request key or missing backend env key returns `401 { "error": "Unauthorized" }`.
+
+Response (200):
+
+```json
+{
+  "date_key": "2026-07-04",
+  "title": "Wheat Field with Cypresses",
+  "artist": "Vincent van Gogh",
+  "museum": "The Metropolitan Museum of Art",
+  "object_date": "1889",
+  "image_url": "https://images.metmuseum.org/CRDImages/ep/original/DT1567.jpg",
+  "artwork_url": "https://www.metmuseum.org/art/collection/search/436535",
+  "explanation": "Vincent van Gogh, 1889. From The Metropolitan Museum of Art collection.",
+  "source": "met",
+  "source_object_id": 436535,
+  "image_credit": "The Metropolitan Museum of Art"
+}
+```
+
+Behavior:
+
+- deterministic selection from a small curated MET object-id seed list
+- Mongo read first, then lazy MET import/cache if the selected record is missing
+- optional display fields serialize as `null` rather than disappearing
+- invalid `date_key` returns `400 { "error": "date_key must be YYYY-MM-DD" }`
+
+### API: GET /healthz
+
+**Status: implemented.**
+
+Request:
+
+```http
+GET /healthz
+```
+
+Response (200):
+
+```json
+{
+  "ok": true,
+  "service": "tema-artworks-api"
+}
+```
+
+Behavior:
+
+- no auth required
+- process health only; does not verify MongoDB
+- intended for lightweight Docker/Nginx smoke checks

@@ -141,3 +141,13 @@ Per main project plan, Section 11. The following are **explicit non-goals** for 
 
 - **History collection:** `artworks_history`. Before each upsert in [mongodbArtworkDAL.ts](nodejs/server/dal/mongodbArtworkDAL.ts), the existing document (if any) is snapshotted into `artworks_history` with `history: { source, sourceObjectId, importedAt, version }` so current and previous states can be compared.
 - **GET /imports/latest/summary** ([nodejs/server/routes/imports.ts](nodejs/server/routes/imports.ts)): Uses [services/import/diffLatestImport.ts](nodejs/server/services/import/diffLatestImport.ts) to compute latest import timestamp (max `metadata.importedAt` in artworks), previous snapshot timestamp (max `history.importedAt` in history &lt; latest), then diff current set vs previous set. Returns `{ importedAt, version, summary: { new, updated, removed }, items }` with `changeType` and title/thumbnail; 501 when no previous snapshot. Deterministic; no UI or ingestion changes beyond history snapshot on persist.
+
+---
+
+## API-first daily artwork and health (done)
+
+- **Daily artwork service:** [services/dailyArtwork.ts](../nodejs/server/services/dailyArtwork.ts) resolves `date_key`, selects one MET object deterministically from a curated seed list, reads it from Mongo when present, and lazily imports it through the existing MET pipeline when missing.
+- **Daily artwork route:** [routes/dailyArtwork.ts](../nodejs/server/routes/dailyArtwork.ts) exposes **GET /daily-artwork** with a flat Ahi-friendly payload and strict `date_key` validation.
+- **Auth middleware:** [middleware/apiKeyAuth.ts](../nodejs/server/middleware/apiKeyAuth.ts) protects **GET /daily-artwork** with `x-tema-api-key` matched against `TEMA_API_KEY`; behavior fails closed when the backend env key is missing.
+- **Health route:** [app.ts](../nodejs/server/app.ts) exposes **GET /healthz** returning `{ ok: true, service: "tema-artworks-api" }`. This is process health only; it does not verify MongoDB.
+- **Tests:** Jest coverage added for daily-artwork payload shaping, lazy import behavior, auth success/failure, malformed `date_key`, and `/healthz`.

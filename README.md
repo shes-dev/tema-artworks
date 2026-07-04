@@ -5,6 +5,8 @@
 ## Features
 
 - **Backend** — Express + TypeScript API, MongoDB connection, optional scripts for DB connectivity, schema checks, and persistence behavior
+- **API-first daily artwork** — `GET /daily-artwork` returns one flat MET-backed daily card payload for external consumers such as Ahi News
+- **Health and auth** — `GET /healthz` for process smoke checks, `x-tema-api-key` + `TEMA_API_KEY` for server-to-server protection on `GET /daily-artwork`
 - **Frontend** — React + Vite app that talks to the backend API
 - **Database** — MongoDB (local or via Docker)
 
@@ -78,7 +80,7 @@ npm install
 cp .env.example .env
 ```
 
-Edit `nodejs/server/.env`: set `PORT`, `MONGODB_URI`, `DB_NAME`. Other project-specific variables are documented in `.env.example`.
+Edit `nodejs/server/.env`: set `PORT`, `MONGODB_URI`, `DB_NAME`, and `TEMA_API_KEY`. Other project-specific variables are documented in `.env.example`.
 
 ### Frontend
 
@@ -111,6 +113,16 @@ Frontend running at http://localhost:3000 (or the port Vite shows).
 
 Open http://localhost:3000 in your browser. The frontend uses the backend API; extend with your own flows and data models.
 
+## API endpoints
+
+- `GET /daily-artwork?date_key=YYYY-MM-DD`
+  - requires header `x-tema-api-key`
+  - returns a flat daily artwork payload with MET-backed metadata
+  - if `date_key` is omitted, the server uses the current Jerusalem-local date
+- `GET /healthz`
+  - no auth required
+  - returns a small process-health JSON payload for Docker/Nginx smoke checks
+
 ## Troubleshooting
 
 ### MongoDB connection refused
@@ -139,6 +151,6 @@ npm install
 
 ## Included vs customize
 
-**Included** — Runnable backend and frontend, MongoDB connection, and optional backend scripts. From `nodejs/server`: **tests** — `npm test` (Jest), `npm run test:backend-e2e`, `npm run verify-met-read` (JS, HTTP-only; see [docs/TESTING.md](docs/TESTING.md)); **dev scripts** — `npm run dev:db`, `npm run dev:schema`, `npm run dev:upsert`, etc. **Import API:** POST /import/met accepts `objectIds` or `demo: true` (deterministic 10-object pull). **Main project plan:** MET Import Validation Layer (v1); see [AGENTS.md](AGENTS.md) for links. Use this repo as a base for your own API and UI.
+**Included** — Runnable backend and frontend, MongoDB connection, and optional backend scripts. From `nodejs/server`: **tests** — `npm test` (Jest), `npm run test:backend-e2e`, `npm run verify-met-read` (JS, HTTP-only; see [docs/TESTING.md](docs/TESTING.md)); **dev scripts** — `npm run dev:db`, `npm run dev:schema`, `npm run dev:upsert`, etc. **Import API:** POST /import/met accepts `objectIds` or `demo: true` (deterministic 10-object pull). **Daily API:** GET /daily-artwork selects deterministically from a curated MET seed list and lazily imports the chosen record when it is missing locally. **Main project plan:** MET Import Validation Layer (v1); see [AGENTS.md](AGENTS.md) for links. Use this repo as a base for your own API and UI.
 
 **Customize** — Add your own routes, data models, and features. Authentication and advanced tooling are left to the project. The backend may seed or initialize data on first run; replace or extend with your own logic.

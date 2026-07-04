@@ -19,6 +19,8 @@ Layout:
 - **validateMetRaw** (`tests/unit/validateMetRaw.test.ts`): Valid MET payload → `status: "ok"`; missing `objectID` → `invalid`; malformed/partial → `partial`; no exceptions; raw input unchanged.
 - **normalizeMetArtwork** (`tests/unit/normalizeMetArtwork.test.ts`): Field mapping (artistDisplayName → artistName, primaryImage → images.primary, additionalImages → images.additional); tags from department/culture; optional date parsing; raw input unchanged.
 - **fetchMetObject** (`tests/unit/fetchMetObject.test.ts`): HTTP is **mocked** (global fetch). Asserts JSON returned, URL called, and throws on non-ok or non-JSON response. Type remains unknown; no validation or normalization in this test.
+- **dailyArtwork** (`tests/unit/dailyArtwork.test.ts`): Strict `date_key` validation, flat payload shaping, lazy import when the selected object is missing locally, and null/fallback behavior for optional display fields.
+- **dailyArtworkRoutes** (`tests/unit/dailyArtworkRoutes.test.ts`): HTTP-level checks for missing/invalid/valid `x-tema-api-key`, fail-closed behavior when `TEMA_API_KEY` is unset, malformed `date_key`, and unauthenticated `/healthz`.
 
 ### What uses real Mongo
 
@@ -61,6 +63,8 @@ Layout:
 | testImportMetArtwork.ts | dev:import-orchestration | Orchestration: fake DAL, persist once, canonical document (network). |
 
 Run from `nodejs/server`: **`npm test`** (Jest), **`npm run test:backend-e2e`**, **`npm run verify-met-read`**; or **`npm run dev:<name>`** for TS scripts.
+
+Daily-artwork route tests run inside `npm test`. They spin up the Express app on an ephemeral local port with a mock DAL, so they do not need MongoDB or live MET network access.
 
 ---
 
