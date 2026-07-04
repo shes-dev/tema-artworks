@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  tema-api:
+    build:
+      context: ./nodejs/server
+      dockerfile: Dockerfile
+    container_name: tema-artworks-api
+    environment:
+      PORT: ${PORT:-5000}
+      TEMA_API_KEY: ${TEMA_API_KEY:-replace-with-shared-server-to-server-key}
+      MONGODB_URI: ${MONGODB_URI:-mongodb://tema-mongo:27017}
+      DB_NAME: ${DB_NAME:-tema}
+      LLM_PROVIDER: ${LLM_PROVIDER:-}
+      AZURE_OPENAI_ENDPOINT: ${AZURE_OPENAI_ENDPOINT:-}
+      AZURE_OPENAI_KEY: ${AZURE_OPENAI_KEY:-}
+      AZURE_OPENAI_VERSION: ${AZURE_OPENAI_VERSION:-}
+      AZURE_OPENAI_DEPLOYMENT: ${AZURE_OPENAI_DEPLOYMENT:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+    ports:
+      - "127.0.0.1:3020:5000"
+    depends_on:
+      - tema-mongo
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:5000/healthz').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - tema-api-private
+
+  tema-mongo:
+    image: mongo:7
+    container_name: tema-artworks-mongo
+    restart: unless-stopped
+    volumes:
+      - tema-api-mongo-data:/data/db
+    networks:
+      - tema-api-private
+
+networks:
+  tema-api-private:
+    driver: bridge
+
+volumes:
+  tema-api-mongo-data:

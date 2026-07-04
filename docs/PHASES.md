@@ -151,3 +151,16 @@ Per main project plan, Section 11. The following are **explicit non-goals** for 
 - **Auth middleware:** [middleware/apiKeyAuth.ts](../nodejs/server/middleware/apiKeyAuth.ts) protects **GET /daily-artwork** with `x-tema-api-key` matched against `TEMA_API_KEY`; behavior fails closed when the backend env key is missing.
 - **Health route:** [app.ts](../nodejs/server/app.ts) exposes **GET /healthz** returning `{ ok: true, service: "tema-artworks-api" }`. This is process health only; it does not verify MongoDB.
 - **Tests:** Jest coverage added for daily-artwork payload shaping, lazy import behavior, auth success/failure, malformed `date_key`, and `/healthz`.
+
+---
+
+## Docker deployment assets for API PoC (done)
+
+- **Backend image:** [nodejs/server/Dockerfile](../nodejs/server/Dockerfile) builds the backend in a multi-stage Node 20 image and copies `dist/`, production `node_modules`, and `demoData/` into the runtime image so startup seeding still works.
+- **Backend build context:** [nodejs/server/.dockerignore](../nodejs/server/.dockerignore) excludes local env files, `node_modules`, test folders, and other non-runtime artifacts from backend image builds.
+- **Compose stack:** [docker-compose.api.yml](../docker-compose.api.yml) adds a separate backend API deployment stack without replacing the existing dev-only root `docker-compose.yml`. It runs:
+  - `tema-api` bound to `127.0.0.1:3020:5000`
+  - `tema-mongo` on a private Docker network only
+  - restart policy `unless-stopped`
+- **Env template:** [nodejs/server/.env.api.example](../nodejs/server/.env.api.example) documents the API deployment env file shape with names only.
+- **Docs:** [docs/DOCKER_API_DEPLOYMENT.md](DOCKER_API_DEPLOYMENT.md) documents build/run commands, smoke tests, Mongo isolation, and the later Nginx-facing EC2 usage.

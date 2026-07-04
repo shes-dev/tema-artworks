@@ -20,9 +20,11 @@
 
 ```
 repo/
-├── docker-compose.yml          # Optional: MongoDB service
+├── docker-compose.yml          # Dev-only MongoDB service
+├── docker-compose.api.yml      # Backend API + private Mongo deployment stack
 ├── QUICKSTART.md               # Shortest setup and run
 ├── README.md
+├── docs/DOCKER_API_DEPLOYMENT.md
 └── nodejs/
     ├── client/                 # React frontend
     │   ├── src/
@@ -34,6 +36,9 @@ repo/
     │   ├── package.json
     │   └── vite.config.js
     └── server/                 # Express backend
+        ├── .env.api.example    # Example env file for API compose deployment
+        ├── .dockerignore       # Backend Docker build context exclusions
+        ├── Dockerfile          # Backend API image build
         ├── app.ts              # API entry
         ├── db/                 # MongoDB connection
         ├── dal/                # Data access
@@ -122,6 +127,17 @@ Open http://localhost:3000 in your browser. The frontend uses the backend API; e
 - `GET /healthz`
   - no auth required
   - returns a small process-health JSON payload for Docker/Nginx smoke checks
+
+## Docker API deployment
+
+For the backend-only Docker deployment assets used by the upcoming EC2/Nginx task, see [docs/DOCKER_API_DEPLOYMENT.md](docs/DOCKER_API_DEPLOYMENT.md).
+
+Key points:
+
+- `docker-compose.yml` remains the dev-only Mongo helper
+- `docker-compose.api.yml` is the separate backend API deployment stack
+- API bind target is `127.0.0.1:3020:5000`
+- Mongo is private to Docker networking only
 
 ## Troubleshooting
 

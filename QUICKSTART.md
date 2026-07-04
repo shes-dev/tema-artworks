@@ -81,6 +81,26 @@ See [docs/TESTING.md](docs/TESTING.md) for full testing layout.
 
 ---
 
+## Docker API stack (optional)
+
+For the backend-only API deployment assets:
+
+```bash
+cp nodejs/server/.env.api.example nodejs/server/.env.api
+docker compose --env-file nodejs/server/.env.api -f docker-compose.api.yml up -d --build
+curl http://127.0.0.1:3020/healthz
+```
+
+Notes:
+
+- `docker-compose.yml` is still the dev-only Mongo helper
+- `docker-compose.api.yml` is the separate deployment-style stack
+- Mongo is private to Docker networking and is not published on a host port
+
+See [docs/DOCKER_API_DEPLOYMENT.md](docs/DOCKER_API_DEPLOYMENT.md) for the full Docker build, run, and smoke-test flow.
+
+---
+
 ## Common issues
 
 **MongoDB not running?**
